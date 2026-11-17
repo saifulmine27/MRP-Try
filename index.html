@@ -64,6 +64,10 @@ function renderResults(data){
  }
  $("results").innerHTML=results.map((r,i)=>{
    const url=validUrl(r.url)?r.url:"#";const img=pickImage(r,i);
+   const price=extractPrice((r.title||"")+" "+(r.content||""));
+   const priceHtml=price
+     ? `<div class="result-price">${esc(price)}</div>`
+     : `<div class="result-price no-price">দাম উল্লেখ নেই</div>`;
    const media=img?`<div class="result-media"><img src="${esc(img)}" alt="${esc(r.title||'পণ্যের ছবি')}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.innerHTML='<span class=\'result-placeholder\'>▧</span>'"></div>`:'<div class="result-media"><span class="result-placeholder">▧</span></div>';
    return `<article class="result">${media}<div class="result-body"><div class="sourcehead"><span class="domain">${esc(domainOf(r.url))}</span><span class="rank">${i+1}</span></div><h4>${esc(r.title||"শিরোনাম পাওয়া যায়নি")}</h4>${priceHtml}<p>${esc(r.content||"এই সোর্সে বিস্তারিত বিবরণ পাওয়া যায়নি।")}</p>${url!=="#"?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">মূল সোর্স দেখুন ↗</a>`:""}</div></article>`
  }).join("");
